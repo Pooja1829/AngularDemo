@@ -1,0 +1,55 @@
+<p>adda-account works!</p>
+
+<div>
+    <h3> Add new Account:</h3>
+    <div class="alert alert-success" *ngIf="success">
+        <strong>Success!</strong> {{success}}
+      </div>
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        <strong>Danger!</strong> {{errorMessage}}
+      </div>
+    <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" [(ngModel)]="newAccount.name" #nameRef="ngModel" pattern="[A-Za-z ]{6,}" placeholder="Enter a name" required>
+        <div *ngIf="nameRef.invalid && (nameRef.touched || nameRef.dirty)">
+            <p *ngIf="nameRef.errors?.['required']" class="text-danger">Name is required, cant be balnk.</p>
+            <p *ngIf="nameRef.errors?.['pattern']" class="text-danger">Only chars are allowed,Min 3 char required.</p>
+        </div>
+        <br>
+
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" [(ngModel)]="newAccount.amount" #priceRef="ngModel" min=0 placeholder="Enter a amount" required>
+        required>
+        <div *ngIf="priceRef.invalid && (priceRef.touched || priceRef.dirty)">
+            <p *ngIf="priceRef.errors?.['required']" class="text-danger">Price is required, cant be balnk.</p>
+            <p *ngIf="priceRef.errors?.['min']" class="text-danger">-ve value not allowed .</p>     
+        </div><br>
+       
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" [(ngModel)]="newAccount.email" #emailRef="ngModel" pattern="[^ @]*@[^ @]*" placeholder="Enter email address" required>
+        required>
+        <div *ngIf="emailRef.invalid && (emailRef.touched || emailRef.dirty)">
+            <p *ngIf="emailRef.errors?.['required']" class="text-danger">Email cant be balnk.</p>
+            <p *ngIf="emailRef.errors?.['pattern']" class="text-danger">Enter a valid email address</p>     
+        </div><br>
+       
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="newAccount.password" #passwordRef="ngModel" pattern="^\\S{6,}$"
+        onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;" required>
+        <label for="password_two">Confirm Password:</label>
+        <input type="password" id="password_2" name="password_2" [(ngModel)]="newAccount.password_2" #password2Ref="ngModel"pattern="^@\\S{6,}$"
+         onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');"
+         placeholder="Verify Password" required>
+
+        <div *ngIf="passwordRef.invalid && (passwordRef.touched || passwordRef.dirty)">
+            <p *ngIf="passwordRef.errors?.['required']" class="text-danger">Password cant be blank.</p>
+            <p *ngIf="passwordRef.errors?.['pattern']" class="text-danger">Enter a valid password</p>     
+        </div><br>
+        <div *ngIf="password2Ref.invalid && (password2Ref.touched || password2Ref.dirty)">
+            <p *ngIf="password2Ref.errors?.['required']" class="text-danger">Password cant be blank.</p>
+            <p *ngIf="password2Ref.errors?.['pattern']" class="text-danger">Enter a valid password</p>     
+        </div><br>
+
+        <button (click)="addAccount()" class="btn btn-success">Add Account</button>
+    </form>
+</div>
